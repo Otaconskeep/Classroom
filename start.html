@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Here — Otaconskeep Classroom</title>
+  <link rel="stylesheet" href="classroom.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="site-title">⚡ Otaconskeep Classroom</h1>
+      <p class="site-subtitle">Start Here — The Right Order</p>
+    </header>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="start.html">Start Here</a>
+      <a href="path.html">Choose Your Path</a>
+      <a href="glossary.html">Glossary</a>
+      <a href="final-exam.html">Final Exam</a>
+    </nav>
+
+    <div class="card">
+      <h2>🎯 What Are We Building?</h2>
+      <p>By the end of this course, you will have a complete homelab system running:</p>
+      <ul style="margin: 20px 0; padding-left: 40px; color: var(--text-secondary);">
+        <li><strong>Docker infrastructure</strong> — reproducible containerized services</li>
+        <li><strong>Media automation</strong> — Prowlarr, Sonarr, Radarr with TRaSH quality automation</li>
+        <li><strong>Media server</strong> — Plex or Jellyfin serving your library</li>
+        <li><strong>Home automation</strong> — Home Assistant controlling lights, sensors, devices</li>
+        <li><strong>Local voice assistant</strong> — Whisper + Piper running 100% offline</li>
+      </ul>
+
+      <div class="diagram">
+┌─────────────────────────────────────────────────────────────┐
+│                    YOUR HOMELAB NETWORK                     │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌──────────────┐      ┌──────────────┐                   │
+│  │   DOCKER     │      │     HOME     │                   │
+│  │   SERVER     │──────│  ASSISTANT   │                   │
+│  │              │      │              │                   │
+│  │ • ARR stack  │      │ • Devices    │                   │
+│  │ • Downloaders│      │ • Automations│                   │
+│  │ • Plex/JF    │      │ • Voice AI   │                   │
+│  └──────────────┘      └──────────────┘                   │
+│         │                      │                           │
+│         └──────────┬───────────┘                           │
+│                    │                                       │
+│              ┌─────┴──────┐                                │
+│              │   ROUTER   │                                │
+│              │  (LAN/WAN) │                                │
+│              └────────────┘                                │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📋 Hardware Checklist</h2>
+      <p>You will need:</p>
+      
+      <h3>Minimum Requirements:</h3>
+      <ul style="margin: 15px 0; padding-left: 40px; color: var(--text-secondary);">
+        <li><strong>Computer:</strong> Any x86-64 PC, laptop, or mini-PC with 8GB+ RAM</li>
+        <li><strong>Operating System:</strong> Windows 10/11 with WSL2, OR Ubuntu/Debian Linux</li>
+        <li><strong>Storage:</strong> 100GB+ free disk space (500GB+ recommended for media)</li>
+        <li><strong>Network:</strong> Wired ethernet connection recommended</li>
+      </ul>
+
+      <h3>Optional (for later units):</h3>
+      <ul style="margin: 15px 0; padding-left: 40px; color: var(--text-secondary);">
+        <li><strong>NAS:</strong> Synology, QNAP, or TrueNAS for centralized storage</li>
+        <li><strong>Proxmox server:</strong> Dedicated hardware for VM/container management</li>
+        <li><strong>Smart devices:</strong> Zigbee/Z-Wave hubs, smart lights, sensors for HA</li>
+        <li><strong>Microphone/Speaker:</strong> USB mic or Raspberry Pi for voice assistant</li>
+      </ul>
+
+      <div class="alert alert-info">
+        <strong>💡 Starting simple?</strong> You can complete Units 1–2 (Docker + ARR) on a single Windows laptop with WSL2. Home Assistant and voice come later.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🗺️ Course Navigation</h2>
+      
+      <h3>The Learning Path:</h3>
+      <div style="margin: 20px 0; padding-left: 20px; color: var(--text-secondary);">
+        <p><strong>1. Choose Your Path</strong> → <a href="path.html">Windows (WSL2) or Linux?</a></p>
+        <p style="margin: 10px 0 20px 40px; font-size: 0.9rem;">
+          Windows and Linux paths share ~80% of content. You'll see OS-specific tabs only where install steps or file paths differ.
+        </p>
+
+        <p><strong>2. Work Through Units 1→4 in Order</strong></p>
+        <p style="margin: 10px 0 20px 40px; font-size: 0.9rem;">
+          Each lesson builds on the previous. Do not skip ahead unless you already have those prerequisites running.
+        </p>
+
+        <p><strong>3. Use the Glossary Constantly</strong></p>
+        <p style="margin: 10px 0 20px 40px; font-size: 0.9rem;">
+          Every technical term is defined in the <a href="glossary.html">glossary</a>. When you see a highlighted word, look it up.
+        </p>
+
+        <p><strong>4. Complete the Final Exam</strong></p>
+        <p style="margin: 10px 0 20px 40px; font-size: 0.9rem;">
+          The <a href="final-exam.html">final exam</a> is a verification matrix: request a movie → watch it on Plex → control your lights → ask your voice assistant.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🧪 Course Philosophy</h2>
+      
+      <h3>TRaSH First, Random YouTube Later</h3>
+      <p>This course follows <a href="https://trash-guides.info/" target="_blank">TRaSH Guides</a> as the authoritative source for ARR media automation. TRaSH Guides are maintained alongside Sonarr/Radarr and stay current. YouTube videos are useful for <em>seeing</em> concepts, but the guides are your instruction manual.</p>
+
+      <h3>Docker Compose, Not Click-Ops</h3>
+      <p>You will learn to define your stack in <code>docker-compose.yml</code> files so you can rebuild your entire homelab from code. No mystery containers created by clicking through Portainer.</p>
+
+      <h3>Understand → Build → Break → Fix → Verify</h3>
+      <p>Every lesson includes:</p>
+      <ul style="margin: 15px 0; padding-left: 40px; color: var(--text-secondary);">
+        <li><strong>Concept:</strong> What you're learning and WHY it matters</li>
+        <li><strong>Lab:</strong> Hands-on steps to build it</li>
+        <li><strong>Checkpoints:</strong> Verify it works before continuing</li>
+        <li><strong>Troubleshooting:</strong> Decision trees for when things break</li>
+      </ul>
+
+      <div class="alert alert-warning">
+        <strong>⚠️ No Shortcuts:</strong> If you skip the Docker networking lesson and jump straight to Gluetun, you WILL get stuck. Follow the order.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🎥 About Lecture Videos</h2>
+      <p>Throughout this course, you'll see references to YouTube videos from:</p>
+      <ul style="margin: 15px 0; padding-left: 40px; color: var(--text-secondary);">
+        <li><strong>NetworkChuck</strong> — Docker, networking, VMs, home automation</li>
+        <li><strong>IBRACORP</strong> — Prowlarr, TRaSH Guides + Notifiarr</li>
+        <li><strong>Smart Home Junkie</strong> — Home Assistant beginner guides</li>
+        <li><strong>Everything Smart Home</strong> — Local voice control</li>
+      </ul>
+
+      <p><strong>Important notes on videos:</strong></p>
+      <div class="alert alert-warning">
+        <ul style="margin: 10px 0; padding-left: 20px;">
+          <li>Videos are <strong>lecture supplements</strong>, not the product. The lessons in this classroom are the lab.</li>
+          <li>Some videos were made in 2022–2024. <strong>UIs change.</strong> Always check official documentation for current steps.</li>
+          <li>Do NOT follow every video step-by-step if it conflicts with TRaSH or this course. Use videos to understand concepts, then follow the classroom labs.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📚 Key Acronyms (Full Glossary Available)</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
+        <div><strong>ARR:</strong> Sonarr, Radarr, Lidarr family</div>
+        <div><strong>HA:</strong> Home Assistant</div>
+        <div><strong>STT:</strong> Speech-to-Text</div>
+        <div><strong>TTS:</strong> Text-to-Speech</div>
+        <div><strong>VPN:</strong> Virtual Private Network</div>
+        <div><strong>LAN:</strong> Local Area Network</div>
+        <div><strong>NAS:</strong> Network Attached Storage</div>
+        <div><strong>SMB:</strong> Samba file share protocol</div>
+      </div>
+      <p style="margin-top: 20px;"><a href="glossary.html">→ View complete glossary</a></p>
+    </div>
+
+    <div class="continue-box">
+      <p>Ready to choose your operating system path?</p>
+      <a href="path.html">NEXT: Choose Your Path (Windows or Linux) →</a>
+    </div>
+
+    <footer>
+      <p>&copy; 2026 Antonio G. Garcia (Otaconskeep) • MIT License</p>
+    </footer>
+  </div>
+</body>
+</html>

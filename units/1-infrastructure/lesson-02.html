@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 1.2: Docker Compose from Zero — Otaconskeep Classroom</title>
+  <link rel="stylesheet" href="../../classroom.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="site-title">⚡ Otaconskeep Classroom</h1>
+      <p class="site-subtitle">Unit 1: Infrastructure & Docker</p>
+    </header>
+
+    <nav>
+      <a href="../../index.html">Home</a>
+      <a href="lesson-01.html">← Previous Lesson</a>
+      <a href="../../glossary.html">Glossary</a>
+    </nav>
+
+    <div class="card">
+      <h2>Lesson 1.2: Docker Compose from Zero</h2>
+      <span class="difficulty-badge difficulty-baby">BABY</span>
+    </div>
+
+    <div class="lesson-section">
+      <h2>📚 What You Are Learning</h2>
+      <p><strong>One concept:</strong> How to define and manage multi-container applications using <code>docker-compose.yml</code> files.</p>
+      <p>Instead of running <code>docker run</code> commands with 20 flags, you'll write one YAML file and bring up your entire stack with <code>docker compose up -d</code>.</p>
+    </div>
+
+    <div class="lesson-section">
+      <h2>✅ You Should Already Have</h2>
+      <ul style="padding-left: 40px; color: var(--text-secondary);">
+        <li>Docker installed and running (from Lesson 1.1)</li>
+        <li><code>docker ps</code> works without errors</li>
+        <li>A text editor (VS Code, nano, vim, or Notepad++)</li>
+      </ul>
+    </div>
+
+    <div class="lesson-section">
+      <h2>📖 New Words</h2>
+      <ul style="padding-left: 40px; color: var(--text-secondary);">
+        <li><a href="../../glossary.html#compose">Docker Compose</a> — Tool for defining multi-container apps</li>
+        <li><a href="../../glossary.html#yaml">YAML</a> — Human-readable data format (indentation matters!)</li>
+        <li><a href="../../glossary.html#volume">Volume</a> — Persistent storage for containers</li>
+        <li><a href="../../glossary.html#port">Port</a> — Network endpoint (e.g., <code>8080:80</code>)</li>
+      </ul>
+    </div>
+
+    <div class="lesson-section">
+      <h2>🏗️ Architecture Picture</h2>
+      <div class="diagram">
+┌─────────────────────────────────────────────────────────────┐
+│              DOCKER COMPOSE WORKFLOW                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  1. Write docker-compose.yml                                │
+│     ┌──────────────────────────────────────┐               │
+│     │ version: "3.8"                       │               │
+│     │ services:                            │               │
+│     │   sonarr:                            │               │
+│     │     image: linuxserver/sonarr        │               │
+│     │     ports: ["8989:8989"]             │               │
+│     │     volumes: ["./data:/data"]        │               │
+│     └──────────────────────────────────────┘               │
+│                      ↓                                      │
+│  2. Run: docker compose up -d                               │
+│                      ↓                                      │
+│  ┌────────────┐  ┌────────────┐  ┌────────────┐           │
+│  │  Sonarr    │  │  Radarr    │  │   Plex     │           │
+│  │ Container  │  │ Container  │  │ Container  │           │
+│  │ :8989      │  │ :7878      │  │ :32400     │           │
+│  └────────────┘  └────────────┘  └────────────┘           │
+│        ↓                ↓                ↓                  │
+│  ┌─────────────────────────────────────────────┐           │
+│  │         Shared /data volume                 │           │
+│  └─────────────────────────────────────────────┘           │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+      </div>
+    </div>
+
+    <div class="lesson-section">
+      <h2>🎥 Lecture Videos (Optional)</h2>
+      <ul style="padding-left: 40px; color: var(--text-secondary);">
+        <li><strong>NetworkChuck:</strong> <a href="https://www.youtube.com/results?search_query=networkchuck+docker+compose" target="_blank">Docker Compose will BLOW your MIND</a></li>
+        <li><strong>TechWorld with Nana:</strong> <a href="https://www.youtube.com/results?search_query=techworld+with+nana+docker+compose" target="_blank">Docker Compose Tutorial</a></li>
+      </ul>
+    </div>
+
+    <div class="lesson-section">
+      <h2>🔧 Lab Steps: Your First docker-compose.yml</h2>
+      
+      <div class="steps">
+        <div class="step">
+          <h4>Create a Project Directory</h4>
+          <div class="os-tabs">
+            <div class="os-tab active" onclick="showOS('step1-windows')">🪟 Windows</div>
+            <div class="os-tab" onclick="showOS('step1-linux')">🐧 Linux</div>
+          </div>
+          
+          <div id="step1-windows" class="os-content active">
+            <p>Open Ubuntu terminal (WSL2) and run:</p>
+            <pre><code>mkdir -p ~/homelab/test-stack
+cd ~/homelab/test-stack</code></pre>
+          </div>
+          
+          <div id="step1-linux" class="os-content">
+            <pre><code>mkdir -p ~/homelab/test-stack
+cd ~/homelab/test-stack</code></pre>
+          </div>
+        </div>
+
+        <div class="step">
+          <h4>Create docker-compose.yml</h4>
+          <p>Create a new file called <code>docker-compose.yml</code> with this content:</p>
+          <pre><code>version: "3.8"
+
+services:
+  whoami:
+    image: traefik/whoami
+    container_name: whoami-test
+    ports:
+      - "8080:80"
+    restart: unless-stopped</code></pre>
+          <p><strong>What this does:</strong> Pulls the <code>traefik/whoami</code> image (a simple web server that shows request info) and exposes it on port 8080.</p>
+        </div>
+
+        <div class="step">
+          <h4>Start the Stack</h4>
+          <pre><code>docker compose up -d</code></pre>
+          <p>The <code>-d</code> flag runs containers in detached mode (background).</p>
+          <p>You should see Docker pulling the image and starting the container.</p>
+        </div>
+
+        <div class="step">
+          <h4>Verify It's Running</h4>
+          <pre><code>docker compose ps</code></pre>
+          <p>You should see the <code>whoami-test</code> container with status "running".</p>
+          <p>Also check with plain Docker:</p>
+          <pre><code>docker ps</code></pre>
+        </div>
+
+        <div class="step">
+          <h4>Test the Web Interface</h4>
+          <p>Open a web browser and navigate to:</p>
+          <div class="os-tabs">
+            <div class="os-tab active" onclick="showOS('step5-windows')">🪟 Windows</div>
+            <div class="os-tab" onclick="showOS('step5-linux')">🐧 Linux</div>
+          </div>
+          
+          <div id="step5-windows" class="os-content active">
+            <p>Open: <a href="http://localhost:8080" target="_blank">http://localhost:8080</a></p>
+          </div>
+          
+          <div id="step5-linux" class="os-content">
+            <p>If on a headless server, find your server's IP and open: <code>http://SERVER-IP:8080</code></p>
+            <p>Or use curl from terminal: <code>curl http://localhost:8080</code></p>
+          </div>
+          
+          <p>You should see output showing hostname, IP, headers, etc.</p>
+        </div>
+
+        <div class="step">
+          <h4>Check Logs</h4>
+          <pre><code>docker compose logs whoami</code></pre>
+          <p>You'll see the HTTP requests you just made.</p>
+          <p>Live log following: <code>docker compose logs -f whoami</code> (Ctrl+C to stop)</p>
+        </div>
+
+        <div class="step">
+          <h4>Stop the Stack</h4>
+          <pre><code>docker compose down</code></pre>
+          <p>This stops and removes the container (but keeps the image for next time).</p>
+        </div>
+
+        <div class="step">
+          <h4>Bring It Back Up</h4>
+          <pre><code>docker compose up -d</code></pre>
+          <p>Notice how fast it starts the second time? The image is already downloaded.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="lesson-section">
+      <h2>📚 Understanding docker-compose.yml Structure</h2>
+      
+      <h3>Basic Anatomy:</h3>
+      <pre><code>version: "3.8"               # Compose file format version
+
+services:                    # Define your containers here
+  service-name:              # Give it a name
+    image: repo/imagename    # Which image to use
+    container_name: my-app   # Optional custom container name
+    ports:                   # Expose ports to host
+      - "8080:80"            # host:container
+    volumes:                 # Mount storage
+      - ./config:/config     # host:container
+    environment:             # Set environment variables
+      - PUID=1000
+      - PGID=1000
+    restart: unless-stopped  # Restart policy</code></pre>
+
+      <h3>Key Fields Explained:</h3>
+      <ul style="padding-left: 40px; color: var(--text-secondary);">
+        <li><strong>image:</strong> Docker Hub image name (e.g., <code>linuxserver/sonarr:latest</code>)</li>
+        <li><strong>ports:</strong> Format is <code>"HOST_PORT:CONTAINER_PORT"</code></li>
+        <li><strong>volumes:</strong> Maps host paths to container paths for persistent data</li>
+        <li><strong>environment:</strong> Variables the container needs (UID/GID, API keys, etc.)</li>
+        <li><strong>restart:</strong> <code>unless-stopped</code> means start on boot, stay running</li>
+      </ul>
+    </div>
+
+    <div class="lesson-section">
+      <h2>🧪 Practice Exercise: Add a Second Service</h2>
+      <p>Edit your <code>docker-compose.yml</code> to add a second container:</p>
+      <pre><code>version: "3.8"
+
+services:
+  whoami:
+    image: traefik/whoami
+    container_name: whoami-test
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-test
+    ports:
+      - "8081:80"
+    restart: unless-stopped</code></pre>
+      
+      <p>Run <code>docker compose up -d</code> again. Docker Compose will:</p>
+      <ul style="padding-left: 40px; color: var(--text-secondary);">
+        <li>Leave the <code>whoami</code> container running (no changes)</li>
+        <li>Start the new <code>nginx</code> container</li>
+      </ul>
+      
+      <p>Now you can access:</p>
+      <ul style="padding-left: 40px; color: var(--text-secondary);">
+        <li><code>http://localhost:8080</code> → whoami</li>
+        <li><code>http://localhost:8081</code> → nginx welcome page</li>
+      </ul>
+    </div>
+
+    <div class="checkpoint">
+      <h3>✅ Checkpoint: Verify Your Learning</h3>
+      
+      <div class="checkbox-item">
+        <input type="checkbox" id="check-2-1">
+        <label for="check-2-1">I created a <code>docker-compose.yml</code> file from scratch</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="check-2-2">
+        <label for="check-2-2"><code>docker compose up -d</code> started my containers successfully</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="check-2-3">
+        <label for="check-2-3">I can access the web interface at <code>http://localhost:8080</code></label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="check-2-4">
+        <label for="check-2-4"><code>docker compose ps</code> shows my running containers</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="check-2-5">
+        <label for="check-2-5"><code>docker compose down</code> stopped and removed the containers</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="check-2-6">
+        <label for="check-2-6">I successfully added a second service to the compose file</label>
+      </div>
+    </div>
+
+    <div class="continue-box">
+      <p>✅ If all boxes are checked, continue to the next lesson!</p>
+      <a href="lesson-03.html">NEXT: Lesson 1.3 — Docker Networking →</a>
+    </div>
+
+    <div class="decision-tree">
+      <h3>🔧 Troubleshooting Decision Tree</h3>
+      
+      <div class="decision-item">
+        <strong>Problem:</strong> "docker compose: command not found" or "docker-compose: command not found"
+        <p style="margin-top: 5px; color: var(--text-secondary);">
+          → Modern Docker uses <code>docker compose</code> (space, not hyphen)<br>
+          → Check Docker version: <code>docker --version</code> (need 20.10+)<br>
+          → On older systems, install docker-compose-plugin: <code>sudo apt install docker-compose-plugin</code>
+        </p>
+      </div>
+
+      <div class="decision-item">
+        <strong>Problem:</strong> "port is already allocated"
+        <p style="margin-top: 5px; color: var(--text-secondary);">
+          → Another container or process is using that port<br>
+          → Find what's using it: <code>sudo lsof -i :8080</code> (Linux) or <code>netstat -ano | findstr :8080</code> (Windows)<br>
+          → Change the port in your compose file: <code>"8082:80"</code> instead of <code>"8080:80"</code>
+        </p>
+      </div>
+
+      <div class="decision-item">
+        <strong>Problem:</strong> "ERROR: yaml.parser.ParserError"
+        <p style="margin-top: 5px; color: var(--text-secondary);">
+          → YAML is indentation-sensitive! Use 2 spaces (not tabs)<br>
+          → Check for missing colons or incorrect alignment<br>
+          → Use a YAML validator: <a href="https://www.yamllint.com/" target="_blank">yamllint.com</a>
+        </p>
+      </div>
+
+      <div class="decision-item">
+        <strong>Problem:</strong> Container starts but immediately stops
+        <p style="margin-top: 5px; color: var(--text-secondary);">
+          → Check logs: <code>docker compose logs SERVICE-NAME</code><br>
+          → Look for error messages about missing env vars or config files<br>
+          → Some containers need volumes or environment variables to run
+        </p>
+      </div>
+    </div>
+
+    <div class="exit-ticket">
+      <h3>📝 Exit Ticket</h3>
+      <p><strong>Question:</strong> What is the main advantage of using <code>docker-compose.yml</code> files instead of running <code>docker run</code> commands manually?</p>
+      <textarea placeholder="Write your answer here..."></textarea>
+    </div>
+
+    <footer>
+      <p>&copy; 2026 Antonio G. Garcia (Otaconskeep) • MIT License</p>
+    </footer>
+  </div>
+
+  <script>
+    function showOS(osId) {
+      const parent = event.target.closest('.step') || event.target.closest('.lesson-section');
+      parent.querySelectorAll('.os-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      parent.querySelectorAll('.os-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      parent.querySelector(`#${osId}`).classList.add('active');
+      event.target.classList.add('active');
+    }
+  </script>
+</body>
+</html>
