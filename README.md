@@ -1,39 +1,31 @@
 # Otaconskeep Classroom — Homelab Academy
 
-Self-paced technical course (not a wiki dump).
+Guided curriculum for ARR + Home Assistant + local voice.
 
-**Canonical site:** https://otaconskeep.github.io/classroom/
+**Site (canonical):** https://otaconskeep.github.io/classroom/
 
-## How lessons work
+## Format
 
-1. What you are learning  
-2. Prerequisites  
-3. New words (link to glossary)  
-4. One picture  
-5. Steps (Windows / Linux where needed)  
-6. Checkpoint checkboxes — only then continue  
-7. Labs + troubleshooting trees  
+Each class is a six-page workbook:
 
-## Courses
+1. What you’re going to learn  
+2. Acronyms / vocabulary  
+3. Architecture picture  
+4. Guided notes (lecture concepts — **no embedded videos**)  
+5. Windows/Linux baby-step lab  
+6. Troubleshooting + checkpoint  
 
-0. Homelab Fundamentals  
-1. Building the ARR Stack  
-2. Perfecting the ARR Stack  
-3. Plex / Jellyfin  
-4. Home Assistant Fundamentals  
-5. Home Assistant Advanced (Zigbee / ESPHome / Matter / Thread / Kwikset tip)  
-6. Local Voice (Wyoming + Linux Voice Assistant)  
-7. Ultimate Homelab + Capstone  
+Pattern: **Understand → Build → Break → Fix → Verify**
 
-## Path fork
+Older NetworkChuck / IBRACORP material is treated as concept lectures. Always prefer current official documentation linked in each class.
 
-Windows → WSL2 + Docker  
-Linux → Ubuntu/Debian + Docker  
-Then merge into the common Docker → Storage → ARR → HA → Voice track.
+## Units
 
-## Glossary
-
-Plain-language acronyms live on the site: [/classroom/glossary.html](https://otaconskeep.github.io/classroom/glossary.html)
+1. Infrastructure & Docker (Classes 1–4)  
+2. ARR Media Automation (Classes 5–7)  
+3. Home Assistant (Classes 8–10)  
+4. Local Voice (Classes 11–13)  
+5. Final exam verification matrix  
 
 ## License
 
