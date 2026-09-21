@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glossary — Otaconskeep Classroom</title>
+  <link rel="stylesheet" href="classroom.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="site-title">⚡ Otaconskeep Classroom</h1>
+      <p class="site-subtitle">Glossary — What the Hell Does That Mean?</p>
+    </header>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="start.html">Start Here</a>
+      <a href="path.html">Choose Your Path</a>
+      <a href="glossary.html">Glossary</a>
+      <a href="final-exam.html">Final Exam</a>
+    </nav>
+
+    <div class="card">
+      <h2>📖 Complete Technical Glossary</h2>
+      <p>Every technical term used in this course is defined here. When you encounter a highlighted word in a lesson, look it up!</p>
+    </div>
+
+    <div class="glossary-grid">
+      
+      <div class="glossary-term" id="api">
+        <dt>API (Application Programming Interface)</dt>
+        <dd>A way for programs to talk to each other. Sonarr's API lets other tools (like Prowlarr or Recyclarr) send requests to add shows or change settings without clicking the web UI.</dd>
+      </div>
+
+      <div class="glossary-term" id="arr">
+        <dt>ARR Stack / *arr Apps</dt>
+        <dd>The family of media automation tools: Sonarr (TV), Radarr (movies), Lidarr (music), Readarr (books), Prowlarr (indexer manager). Named for the "arr" suffix in pirate speak.</dd>
+      </div>
+
+      <div class="glossary-term" id="bind-mount">
+        <dt>Bind Mount</dt>
+        <dd>A Docker volume that maps a host filesystem path directly into a container. Example: <code>./config:/config</code> maps the host's <code>./config</code> folder to <code>/config</code> inside the container.</dd>
+      </div>
+
+      <div class="glossary-term" id="container">
+        <dt>Container</dt>
+        <dd>A running instance of a Docker image. Like a virtual machine but lighter — it shares the host kernel and starts in seconds.</dd>
+      </div>
+
+      <div class="glossary-term" id="compose">
+        <dt>Docker Compose</dt>
+        <dd>A tool for defining multi-container Docker applications in a YAML file (<code>docker-compose.yml</code>). Instead of running <code>docker run</code> 10 times, you write one file and <code>docker compose up -d</code>.</dd>
+      </div>
+
+      <div class="glossary-term" id="custom-format">
+        <dt>Custom Format (CF)</dt>
+        <dd>TRaSH Guides scoring system for release quality in Sonarr/Radarr. Examples: prefer DV/HDR, avoid hardcoded subs, require proper groups. CFs assign positive/negative scores to releases.</dd>
+      </div>
+
+      <div class="glossary-term" id="dhcp">
+        <dt>DHCP (Dynamic Host Configuration Protocol)</dt>
+        <dd>The service that automatically assigns IP addresses to devices on your LAN. Your router usually runs the DHCP server.</dd>
+      </div>
+
+      <div class="glossary-term" id="dns">
+        <dt>DNS (Domain Name System)</dt>
+        <dd>Translates domain names (google.com) into IP addresses (172.217.14.206). Your router forwards DNS requests to your ISP or a public DNS like 1.1.1.1.</dd>
+      </div>
+
+      <div class="glossary-term" id="docker">
+        <dt>Docker</dt>
+        <dd>A platform for running applications in isolated containers. Each container is a lightweight, portable package with its own filesystem and dependencies.</dd>
+      </div>
+
+      <div class="glossary-term" id="esphome">
+        <dt>ESPHome</dt>
+        <dd>A Home Assistant ecosystem tool for programming ESP32/ESP8266 microcontrollers. Also the protocol used by the new Linux Voice Assistant satellites.</dd>
+      </div>
+
+      <div class="glossary-term" id="gid">
+        <dt>GID (Group ID)</dt>
+        <dd>A Linux group identifier number. Docker containers often need <code>PGID=1000</code> to match your host user's group so file permissions work correctly.</dd>
+      </div>
+
+      <div class="glossary-term" id="hardlink">
+        <dt>Hardlink</dt>
+        <dd>A second directory entry pointing to the same file data on disk. Sonarr/Radarr use hardlinks so completed torrents can stay in the download folder for seeding while also appearing in the media library — without doubling disk usage.</dd>
+      </div>
+
+      <div class="glossary-term" id="ha">
+        <dt>Home Assistant (HA)</dt>
+        <dd>Open-source home automation platform that integrates smart devices, creates automations, and runs local voice assistants.</dd>
+      </div>
+
+      <div class="glossary-term" id="image">
+        <dt>Docker Image</dt>
+        <dd>A template/blueprint for a container. Built from a Dockerfile. You <code>docker pull</code> images from Docker Hub, then <code>docker run</code> them to create containers.</dd>
+      </div>
+
+      <div class="glossary-term" id="indexer">
+        <dt>Indexer</dt>
+        <dd>A search service for torrents or Usenet. Examples: NZBgeek (Usenet), TorrentLeech (private torrent). Prowlarr manages indexers for all your ARR apps.</dd>
+      </div>
+
+      <div class="glossary-term" id="ip">
+        <dt>IP Address</dt>
+        <dd>A numerical label for devices on a network. IPv4 example: <code>192.168.1.100</code>. Your router assigns local IPs to devices via DHCP.</dd>
+      </div>
+
+      <div class="glossary-term" id="lan">
+        <dt>LAN (Local Area Network)</dt>
+        <dd>Your home network — the devices connected to your router via ethernet or Wi-Fi. Usually uses private IP ranges like <code>192.168.x.x</code> or <code>10.x.x.x</code>.</dd>
+      </div>
+
+      <div class="glossary-term" id="llm">
+        <dt>LLM (Large Language Model)</dt>
+        <dd>AI model for understanding and generating text. In Home Assistant Assist, you can use local LLMs to interpret complex voice commands instead of simple keyword matching.</dd>
+      </div>
+
+      <div class="glossary-term" id="mqtt">
+        <dt>MQTT</dt>
+        <dd>A lightweight messaging protocol for IoT devices. Many Zigbee/Z-Wave bridges publish sensor data over MQTT, which Home Assistant subscribes to.</dd>
+      </div>
+
+      <div class="glossary-term" id="nas">
+        <dt>NAS (Network Attached Storage)</dt>
+        <dd>A dedicated storage server on your LAN. Examples: Synology, QNAP, TrueNAS. Provides SMB/NFS shares that Docker containers can mount.</dd>
+      </div>
+
+      <div class="glossary-term" id="nfs">
+        <dt>NFS (Network File System)</dt>
+        <dd>A Linux-native protocol for sharing folders over the network. Faster than SMB for Linux-to-Linux connections.</dd>
+      </div>
+
+      <div class="glossary-term" id="piper">
+        <dt>Piper</dt>
+        <dd>A fast, local text-to-speech (TTS) engine built for Home Assistant. Generates voice responses offline. Part of the Wyoming ecosystem.</dd>
+      </div>
+
+      <div class="glossary-term" id="port">
+        <dt>Port (Network)</dt>
+        <dd>A numbered endpoint on a device. Web servers listen on port 80/443, Sonarr on 8989, Radarr on 7878. Format: <code>IP:port</code> like <code>192.168.1.10:8989</code>.</dd>
+      </div>
+
+      <div class="glossary-term" id="prowlarr">
+        <dt>Prowlarr</dt>
+        <dd>An indexer manager for ARR apps. Instead of adding indexers to Sonarr, Radarr, Lidarr separately, add them once in Prowlarr and sync everywhere.</dd>
+      </div>
+
+      <div class="glossary-term" id="quality-profile">
+        <dt>Quality Profile</dt>
+        <dd>Settings in Sonarr/Radarr that define which video qualities are acceptable (480p, 720p, 1080p, 4K) and which formats to prefer (DV, HDR, etc.).</dd>
+      </div>
+
+      <div class="glossary-term" id="radarr">
+        <dt>Radarr</dt>
+        <dd>An ARR app for managing movie libraries. Searches indexers, sends downloads to qBittorrent/SAB, imports files to Plex/Jellyfin.</dd>
+      </div>
+
+      <div class="glossary-term" id="reverse-proxy">
+        <dt>Reverse Proxy</dt>
+        <dd>A server that sits in front of web services and routes traffic. Examples: Nginx Proxy Manager, Traefik. Lets you access services via <code>sonarr.yourdomain.com</code> instead of <code>192.168.1.10:8989</code>.</dd>
+      </div>
+
+      <div class="glossary-term" id="smb">
+        <dt>SMB (Samba / CIFS)</dt>
+        <dd>Windows file sharing protocol. Used by NAS devices to share folders. Mount SMB shares in Linux with <code>mount -t cifs</code>.</dd>
+      </div>
+
+      <div class="glossary-term" id="sonarr">
+        <dt>Sonarr</dt>
+        <dd>An ARR app for managing TV show libraries. Monitors RSS feeds, searches indexers for new episodes, automates downloads.</dd>
+      </div>
+
+      <div class="glossary-term" id="stt">
+        <dt>STT (Speech-to-Text)</dt>
+        <dd>Converts spoken words into written text. Whisper is a popular local STT engine for Home Assistant.</dd>
+      </div>
+
+      <div class="glossary-term" id="trash">
+        <dt>TRaSH Guides</dt>
+        <dd>Community-maintained documentation for optimal Sonarr/Radarr setup. Covers file structure, hardlinks, Custom Formats, quality profiles. The authoritative ARR playbook.</dd>
+      </div>
+
+      <div class="glossary-term" id="tts">
+        <dt>TTS (Text-to-Speech)</dt>
+        <dd>Converts written text into spoken audio. Piper is a fast local TTS engine for Home Assistant responses.</dd>
+      </div>
+
+      <div class="glossary-term" id="uid">
+        <dt>UID (User ID)</dt>
+        <dd>A Linux user identifier number. Docker containers often need <code>PUID=1000</code> to match your host user so files are readable/writable.</dd>
+      </div>
+
+      <div class="glossary-term" id="vlan">
+        <dt>VLAN (Virtual LAN)</dt>
+        <dd>A way to split one physical network into multiple logical networks. Advanced use: isolate IoT devices from your main LAN for security.</dd>
+      </div>
+
+      <div class="glossary-term" id="volume">
+        <dt>Docker Volume</dt>
+        <dd>Persistent storage for Docker containers. Named volumes (<code>sonarr-config:/config</code>) or bind mounts (<code>./data:/data</code>).</dd>
+      </div>
+
+      <div class="glossary-term" id="vpn">
+        <dt>VPN (Virtual Private Network)</dt>
+        <dd>Encrypted tunnel between your device and a remote server. For homelab: use Tailscale/ZeroTier to access services remotely. For downloads: use Gluetun to route torrent traffic through a VPN provider.</dd>
+      </div>
+
+      <div class="glossary-term" id="wan">
+        <dt>WAN (Wide Area Network)</dt>
+        <dd>The outside world / internet beyond your router. Your router's WAN port connects to your ISP modem.</dd>
+      </div>
+
+      <div class="glossary-term" id="whisper">
+        <dt>Whisper</dt>
+        <dd>OpenAI's speech-to-text model, now available for local use. Fast and accurate STT for Home Assistant voice pipelines. Part of the Wyoming ecosystem.</dd>
+      </div>
+
+      <div class="glossary-term" id="wyoming">
+        <dt>Wyoming Protocol</dt>
+        <dd>A protocol for connecting voice services (Whisper, Piper, wake words) to Home Assistant. Wyoming services can run on separate machines for heavy GPU workloads.</dd>
+      </div>
+
+      <div class="glossary-term" id="yaml">
+        <dt>YAML</dt>
+        <dd>A human-readable data format used for config files. Docker Compose, Home Assistant automations, and Recyclarr configs are all written in YAML. Indentation matters!</dd>
+      </div>
+
+      <div class="glossary-term" id="zigbee">
+        <dt>Zigbee</dt>
+        <dd>A low-power wireless protocol for smart home devices. Requires a Zigbee hub/coordinator (like Zigbee2MQTT or a USB stick) to connect devices to Home Assistant.</dd>
+      </div>
+
+      <div class="glossary-term" id="zwave">
+        <dt>Z-Wave</dt>
+        <dd>Another wireless protocol for smart home devices. More expensive than Zigbee but better range and mesh reliability in some setups.</dd>
+      </div>
+
+    </div>
+
+    <div class="card" style="margin-top: 40px;">
+      <h2>🔍 How to Use This Glossary</h2>
+      <ul style="margin: 15px 0; padding-left: 40px; color: var(--text-secondary);">
+        <li><strong>Bookmark this page</strong> — You'll reference it constantly during lessons</li>
+        <li><strong>Use Ctrl+F</strong> to search for terms</li>
+        <li><strong>Deep links:</strong> Each term has an ID you can link to (e.g., <code>glossary.html#docker</code>)</li>
+        <li><strong>Still confused?</strong> Check official documentation or ask in the TRaSH Discord / Home Assistant forums</li>
+      </ul>
+    </div>
+
+    <div class="continue-box">
+      <p>Return to the lesson or start the course!</p>
+      <a href="index.html">Back to Home →</a>
+    </div>
+
+    <footer>
+      <p>&copy; 2026 Antonio G. Garcia (Otaconskeep) • MIT License</p>
+    </footer>
+  </div>
+</body>
+</html>
