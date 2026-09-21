@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lesson 1.1: Virtualization & Proxmox Concepts — Otaconskeep Classroom</title>
+  <title>Class 01 — Virtualization Mindset — Otaconskeep Classroom</title>
   <link rel="stylesheet" href="../../classroom.css">
 </head>
 <body>
@@ -15,327 +15,136 @@
 
     <nav>
       <a href="../../index.html">Home</a>
-      <a href="../../start.html">Start Here</a>
-      <a href="../../path.html">Choose Your Path</a>
+      <a href="../../path.html">← Choose Path</a>
       <a href="../../glossary.html">Glossary</a>
-      <a href="../../final-exam.html">Final Exam</a>
     </nav>
 
     <div class="card">
-      <h2>Lesson 1.1: Virtualization & Proxmox Concepts</h2>
+      <h2>Class 01 — Virtualization Mindset</h2>
       <span class="difficulty-badge difficulty-baby">BABY</span>
+      <p style="margin-top: 15px;"><strong>Prev:</strong> <a href="../../path.html">Choose Path</a> · <strong>Next:</strong> <a href="lesson-02.html">Class 02</a></p>
     </div>
 
     <div class="lesson-section">
-      <h2>📚 What You Are Learning</h2>
-      <p><strong>One concept:</strong> Understanding virtualization technologies and when to use VMs, containers, or bare metal for your homelab.</p>
-      <p>By the end of this lesson, you will understand the differences between:</p>
-      <ul style="margin: 15px 0; padding-left: 40px; color: var(--text-secondary);">
-        <li>Bare metal installations</li>
-        <li>Virtual Machines (VMs)</li>
-        <li>Containers (Docker)</li>
-        <li>Hypervisors (Proxmox, Hyper-V, ESXi)</li>
-      </ul>
+      <h2>Goal / What you are learning</h2>
+      <p><strong>One concept:</strong> a <strong>VM</strong> is a full virtual computer (own kernel); a <strong>container</strong> shares the host kernel and packages an app. Homelabs often run containers <em>inside</em> VMs/LXCs on a <a href="../../glossary.html#hypervisor">hypervisor</a> like <a href="../../glossary.html#proxmox">Proxmox</a>.</p>
+      <p>After this lesson you can: sketch where Docker sits in a typical Proxmox homelab; decide "VM vs container" for a simple workload.</p>
     </div>
 
     <div class="lesson-section">
-      <h2>✅ You Should Already Have</h2>
+      <h2>✅ You should already have</h2>
+      <div class="checkbox-item">
+        <input type="checkbox" id="prereq-1">
+        <label for="prereq-1"><a href="../../path.html">Choose Path</a> complete</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="prereq-2">
+        <label for="prereq-2">Curiosity only — <strong>you do not need Proxmox installed</strong> for the BABY lab (optional stretch)</label>
+      </div>
+    </div>
+
+    <div class="lesson-section">
+      <h2>📖 New words</h2>
       <ul style="padding-left: 40px; color: var(--text-secondary);">
-        <li>A computer with 8GB+ RAM running Windows 10/11 OR Ubuntu/Debian Linux</li>
-        <li>Basic understanding of operating systems</li>
-        <li>Internet connection to download software</li>
+        <li><a href="../../glossary.html#hypervisor">Hypervisor</a> — runs VMs</li>
+        <li><a href="../../glossary.html#vm">VM</a> — full guest OS</li>
+        <li><a href="../../glossary.html#container">Container</a> — app isolation, shared kernel</li>
+        <li><a href="../../glossary.html#ct">CT / LXC</a> — Proxmox Linux container</li>
+        <li><a href="../../glossary.html#proxmox">Proxmox</a> — popular homelab hypervisor</li>
       </ul>
     </div>
 
     <div class="lesson-section">
-      <h2>📖 New Words</h2>
-      <p>Technical terms you'll learn in this lesson (click to see definitions):</p>
-      <ul style="padding-left: 40px; color: var(--text-secondary);">
-        <li><a href="../../glossary.html#container">Container</a> — Lightweight isolated application environment</li>
-        <li><a href="../../glossary.html#docker">Docker</a> — Platform for running containers</li>
-        <li><a href="../../glossary.html#image">Docker Image</a> — Template for creating containers</li>
-        <li>Hypervisor — Software layer that creates and runs virtual machines</li>
-        <li>VM (Virtual Machine) — Fully isolated virtual computer with its own OS</li>
-      </ul>
-    </div>
-
-    <div class="lesson-section">
-      <h2>🏗️ Architecture Picture</h2>
+      <h2>🏗️ One architecture picture</h2>
       <div class="diagram">
-┌─────────────────────────────────────────────────────────────┐
-│                  VIRTUALIZATION LAYERS                      │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │         OPTION 1: BARE METAL + DOCKER               │   │
-│  ├─────────────────────────────────────────────────────┤   │
-│  │  [Sonarr] [Radarr] [Plex]  ← Docker Containers     │   │
-│  │  ─────────────────────────────────────────────────  │   │
-│  │            Docker Engine                            │   │
-│  │  ─────────────────────────────────────────────────  │   │
-│  │       Ubuntu/Debian Linux (Host OS)                 │   │
-│  │  ─────────────────────────────────────────────────  │   │
-│  │              Hardware                               │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │      OPTION 2: PROXMOX WITH VMs/CONTAINERS          │   │
-│  ├─────────────────────────────────────────────────────┤   │
-│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐          │   │
-│  │  │   VM 1   │  │   VM 2   │  │   LXC    │          │   │
-│  │  │  Docker  │  │   HA OS  │  │ Container│          │   │
-│  │  │   ARR    │  │          │  │          │          │   │
-│  │  └──────────┘  └──────────┘  └──────────┘          │   │
-│  │  ─────────────────────────────────────────────────  │   │
-│  │           Proxmox VE (Hypervisor)                   │   │
-│  │  ─────────────────────────────────────────────────  │   │
-│  │              Hardware                               │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │       OPTION 3: WINDOWS WSL2 + DOCKER               │   │
-│  ├─────────────────────────────────────────────────────┤   │
-│  │  [Sonarr] [Radarr] [Plex]  ← Docker Containers     │   │
-│  │  ─────────────────────────────────────────────────  │   │
-│  │         Docker Desktop / WSL2 Ubuntu                │   │
-│  │  ─────────────────────────────────────────────────  │   │
-│  │           Windows 10/11 (Host OS)                   │   │
-│  │  ─────────────────────────────────────────────────  │   │
-│  │              Hardware                               │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
+ ┌──────────────── Proxmox / Hypervisor (bare metal) ────────────────┐
+ │  ┌──────────── VM: Ubuntu ────────────┐   ┌──── LXC (CT) ────┐   │
+ │  │  kernel (guest)                    │   │  shared-ish host │   │
+ │  │  ┌──────────────────────────────┐  │   │  lighter guest   │   │
+ │  │  │ Docker Engine                │  │   └──────────────────┘   │
+ │  │  │  ├─ sonarr                   │  │                          │
+ │  │  │  ├─ radarr                   │  │   ┌──── VM: HAOS ────┐   │
+ │  │  │  └─ prowlarr                 │  │   │ Home Assistant   │   │
+ │  │  └──────────────────────────────┘  │   └──────────────────┘   │
+ │  └────────────────────────────────────┘                          │
+ └──────────────────────────────────────────────────────────────────┘
       </div>
     </div>
 
     <div class="lesson-section">
-      <h2>🎥 Lecture Videos (Optional)</h2>
-      <p>These videos explain virtualization concepts. Watch to understand the theory, then follow this lesson's lab steps.</p>
-      <ul style="padding-left: 40px; color: var(--text-secondary);">
-        <li><strong>NetworkChuck:</strong> <a href="https://www.youtube.com/results?search_query=networkchuck+virtual+machines" target="_blank">Virtual Machines / Proxmox basics</a></li>
-        <li><strong>Learn Linux TV:</strong> <a href="https://www.youtube.com/results?search_query=learn+linux+tv+proxmox" target="_blank">Proxmox VE installation</a></li>
-      </ul>
+      <h2>🎥 Lecture video (concepts only)</h2>
+      <p>Watch on YouTube: <strong>NetworkChuck — Proxmox / VMs</strong><br>
+      Search title: <code>NetworkChuck Proxmox</code></p>
       <div class="alert alert-warning">
-        <strong>⚠️ Note:</strong> These videos may show older UIs. Always check official documentation for current installation steps.
+        <strong>Note:</strong> Concepts only — prefer <a href="https://pve.proxmox.com/pve-docs/" target="_blank">current Proxmox docs</a> for install. UI drifts.
       </div>
     </div>
 
     <div class="lesson-section">
-      <h2>🔧 Understanding Virtualization Options</h2>
+      <h2>📋 Baby-steps by OS</h2>
       
-      <h3>Option 1: Bare Metal + Docker (Simplest for Beginners)</h3>
-      <p><strong>What it is:</strong> Install Ubuntu/Debian directly on hardware, then run Docker containers for all services.</p>
-      <p><strong>Pros:</strong> Simple, no virtualization overhead, great for a single dedicated server</p>
-      <p><strong>Cons:</strong> Less flexible if you want multiple isolated environments</p>
-      <p><strong>Best for:</strong> Your first homelab, single-purpose servers</p>
+      <h3>Windows (WSL2 + Docker)</h3>
+      <p>You already run a <strong>lightweight VM</strong> (WSL2). Docker Desktop/Engine rides on that. Mental model: <em>Windows → WSL2 VM → Docker containers</em>.</p>
 
-      <h3>Option 2: Windows WSL2 + Docker Desktop (Best for Windows Users)</h3>
-      <p><strong>What it is:</strong> Use Windows as your daily driver, run a lightweight Linux VM (WSL2) inside Windows, run Docker containers in WSL2.</p>
-      <p><strong>Pros:</strong> Keep using Windows, easy setup, great for laptops</p>
-      <p><strong>Cons:</strong> WSL2 has some quirks with networking and file I/O performance</p>
-      <p><strong>Best for:</strong> Windows users who want to learn Docker without dedicating hardware</p>
+      <h3>Linux (Ubuntu + Docker)</h3>
+      <p>Docker Engine runs on the host kernel. Optional later: put this Ubuntu <strong>inside</strong> a Proxmox VM for snapshots/isolation.</p>
 
-      <h3>Option 3: Proxmox Hypervisor (Advanced)</h3>
-      <p><strong>What it is:</strong> Install Proxmox VE (a hypervisor) on bare metal, create multiple VMs and LXC containers inside it.</p>
-      <p><strong>Pros:</strong> Run multiple isolated operating systems, snapshots, easy backups, HA clusters</p>
-      <p><strong>Cons:</strong> More complex, requires dedicated hardware, learning curve</p>
-      <p><strong>Best for:</strong> Advanced users with dedicated homelab hardware</p>
+      <h3>Merge</h3>
+      <p>Both paths: containers are <strong>not</strong> a replacement for backups or for workloads that need a different kernel/OS.</p>
     </div>
 
     <div class="lesson-section">
-      <h2>📋 Lab Steps: Choose Your Path</h2>
-      
-      <div class="os-tabs">
-        <div class="os-tab active" onclick="showOS('windows-lab')">🪟 Windows WSL2</div>
-        <div class="os-tab" onclick="showOS('linux-lab')">🐧 Linux Bare Metal</div>
-        <div class="os-tab" onclick="showOS('proxmox-lab')">🖥️ Proxmox (Advanced)</div>
-      </div>
-      
-      <div id="windows-lab" class="os-content active">
-        <h3>Windows WSL2 Setup</h3>
-        
-        <div class="steps">
-          <div class="step">
-            <h4>Enable WSL2</h4>
-            <p>Open PowerShell as Administrator and run:</p>
-            <pre><code>wsl --install</code></pre>
-            <p>This installs WSL2 and Ubuntu 22.04 by default. Reboot when prompted.</p>
-          </div>
+      <h2>🔧 Lab — one action</h2>
+      <p><strong>Action:</strong> Prove container ≠ VM by inspecting your Docker host kernel vs a container's view.</p>
 
-          <div class="step">
-            <h4>Verify WSL2 Installation</h4>
-            <p>After reboot, open PowerShell and check:</p>
-            <pre><code>wsl -l -v</code></pre>
-            <p>You should see Ubuntu with VERSION 2.</p>
-          </div>
+      <pre><code># On the Docker host (WSL Ubuntu or Linux)
+uname -r
+docker run --rm alpine uname -r</code></pre>
 
-          <div class="step">
-            <h4>Install Docker Desktop</h4>
-            <p>Download Docker Desktop from <a href="https://www.docker.com/products/docker-desktop/" target="_blank">docker.com</a></p>
-            <p>Run the installer and enable WSL2 integration during setup.</p>
-          </div>
+      <p>Optional stretch (if you have Proxmox): screenshot the Datacenter view showing at least one VM or CT — no install required for credit.</p>
 
-          <div class="step">
-            <h4>Configure WSL2 Integration</h4>
-            <p>Open Docker Desktop → Settings → Resources → WSL Integration</p>
-            <p>Enable integration with your Ubuntu distribution.</p>
-          </div>
-
-          <div class="step">
-            <h4>Test Docker in WSL2</h4>
-            <p>Open Ubuntu terminal (search "Ubuntu" in Windows Start menu) and run:</p>
-            <pre><code>docker --version
-docker ps</code></pre>
-            <p>You should see Docker version output and an empty container list.</p>
-          </div>
+      <h3>Evidence checkboxes</h3>
+      <div class="checkpoint">
+        <div class="checkbox-item">
+          <input type="checkbox" id="check-1-1">
+          <label for="check-1-1">Host <code>uname -r</code> recorded</label>
         </div>
-      </div>
-      
-      <div id="linux-lab" class="os-content">
-        <h3>Linux Bare Metal Setup</h3>
-        
-        <div class="steps">
-          <div class="step">
-            <h4>Install Ubuntu Server 22.04 or 24.04</h4>
-            <p>Download Ubuntu Server ISO from <a href="https://ubuntu.com/download/server" target="_blank">ubuntu.com</a></p>
-            <p>Create bootable USB with Rufus (Windows) or Etcher (Mac/Linux)</p>
-            <p>Boot from USB and follow the installation wizard. Choose "Use entire disk" for simplicity.</p>
-          </div>
-
-          <div class="step">
-            <h4>SSH Access (Optional but Recommended)</h4>
-            <p>During Ubuntu install, enable OpenSSH server when prompted.</p>
-            <p>After install, find your server's IP address:</p>
-            <pre><code>ip addr show</code></pre>
-            <p>From another computer, connect via SSH:</p>
-            <pre><code>ssh username@SERVER-IP</code></pre>
-          </div>
-
-          <div class="step">
-            <h4>Update System</h4>
-            <pre><code>sudo apt update && sudo apt upgrade -y</code></pre>
-          </div>
-
-          <div class="step">
-            <h4>Install Docker Engine</h4>
-            <pre><code>sudo apt install docker.io docker-compose-plugin -y
-sudo systemctl enable --now docker
-sudo usermod -aG docker $USER</code></pre>
-            <p>Log out and back in for group membership to take effect.</p>
-          </div>
-
-          <div class="step">
-            <h4>Test Docker</h4>
-            <pre><code>docker --version
-docker ps</code></pre>
-            <p>You should see Docker version output and an empty container list.</p>
-          </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="check-1-2">
+          <label for="check-1-2">Container <code>uname -r</code> recorded</label>
         </div>
-      </div>
-      
-      <div id="proxmox-lab" class="os-content">
-        <h3>Proxmox VE Setup (Advanced)</h3>
-        
-        <div class="alert alert-info">
-          <strong>💡 Proxmox Note:</strong> This is an advanced path. For your first homelab, we recommend starting with Windows WSL2 or Linux bare metal, then migrating to Proxmox later.
+        <div class="checkbox-item">
+          <input type="checkbox" id="check-1-3">
+          <label for="check-1-3">I observed they match (same kernel) — expected for containers</label>
         </div>
-        
-        <div class="steps">
-          <div class="step">
-            <h4>Download Proxmox VE ISO</h4>
-            <p>Get the latest Proxmox VE ISO from <a href="https://www.proxmox.com/en/downloads" target="_blank">proxmox.com</a></p>
-            <p>Create bootable USB with Rufus or Etcher.</p>
-          </div>
-
-          <div class="step">
-            <h4>Install Proxmox VE</h4>
-            <p>Boot from USB and follow the graphical installer.</p>
-            <p>Set a static IP for the Proxmox host (e.g., <code>192.168.1.100</code>).</p>
-            <p>After reboot, access web UI at <code>https://PROXMOX-IP:8006</code></p>
-          </div>
-
-          <div class="step">
-            <h4>Create a VM for Docker</h4>
-            <p>In Proxmox web UI, click "Create VM"</p>
-            <p>Upload Ubuntu Server 22.04 ISO</p>
-            <p>Allocate 4GB+ RAM, 2+ CPU cores, 50GB+ disk</p>
-            <p>Start VM and install Ubuntu Server inside it</p>
-          </div>
-
-          <div class="step">
-            <h4>Install Docker in the VM</h4>
-            <p>Follow the same Docker installation steps as Linux bare metal (above).</p>
-          </div>
-
-          <div class="step">
-            <h4>Optional: LXC Container for Docker</h4>
-            <p>Advanced users can run Docker in an LXC container instead of a VM.</p>
-            <p>Read: <a href="https://pve.proxmox.com/wiki/Linux_Container" target="_blank">Proxmox LXC documentation</a></p>
-          </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="check-1-4">
+          <label for="check-1-4">I can state: "If I needed Windows Server apps, I'd use a VM, not a Linux container"</label>
         </div>
-      </div>
-    </div>
-
-    <div class="checkpoint">
-      <h3>✅ Checkpoint: Verify Your Setup</h3>
-      <p>Before continuing, make sure you can check ALL these boxes:</p>
-      
-      <div class="checkbox-item">
-        <input type="checkbox" id="check-1-1">
-        <label for="check-1-1">Docker is installed and running (<code>docker --version</code> shows version number)</label>
-      </div>
-      <div class="checkbox-item">
-        <input type="checkbox" id="check-1-2">
-        <label for="check-1-2"><code>docker ps</code> command runs without errors (even if output is empty)</label>
-      </div>
-      <div class="checkbox-item">
-        <input type="checkbox" id="check-1-3">
-        <label for="check-1-3">I understand the difference between VMs and containers</label>
-      </div>
-      <div class="checkbox-item">
-        <input type="checkbox" id="check-1-4">
-        <label for="check-1-4">I know which virtualization path I'm using (Windows WSL2, Linux bare metal, or Proxmox)</label>
       </div>
     </div>
 
     <div class="continue-box">
-      <p>✅ If all boxes are checked, continue to the next lesson!</p>
-      <a href="lesson-02.html">NEXT: Lesson 1.2 — Docker Compose from Zero →</a>
+      <p>✅ If all boxes true, continue!</p>
+      <a href="lesson-02.html">NEXT: Class 02 — Docker Compose →</a>
     </div>
 
     <div class="decision-tree">
-      <h3>🔧 Troubleshooting Decision Tree</h3>
-      
-      <div class="decision-item">
-        <strong>Problem:</strong> "docker: command not found"
-        <p style="margin-top: 5px; color: var(--text-secondary);">
-          Windows: Make sure Docker Desktop is running (check system tray)<br>
-          Linux: Run <code>sudo apt install docker.io docker-compose-plugin</code><br>
-          Both: Close and reopen your terminal
-        </p>
-      </div>
+      <h3>🔧 Troubleshooting decision tree</h3>
+      <pre style="background: var(--bg-card); padding: 15px; border-left: 4px solid var(--warning);">
+docker run fails?
+├─ Choose Path incomplete → go back
+├─ Alpine pull blocked → check DNS/internet; retry
+└─ Permission denied → docker group / Desktop running
 
-      <div class="decision-item">
-        <strong>Problem:</strong> "permission denied while trying to connect to the Docker daemon"
-        <p style="margin-top: 5px; color: var(--text-secondary);">
-          Linux: Run <code>sudo usermod -aG docker $USER</code> then log out and back in<br>
-          Windows: Make sure WSL integration is enabled in Docker Desktop settings
-        </p>
-      </div>
-
-      <div class="decision-item">
-        <strong>Problem:</strong> WSL2 not installing on Windows
-        <p style="margin-top: 5px; color: var(--text-secondary);">
-          → Check Windows version (need 2004 or later): run <code>winver</code><br>
-          → Enable virtualization in BIOS (Intel VT-x or AMD-V)<br>
-          → Run Windows Update to get latest WSL2 kernel
-        </p>
-      </div>
+uname differs wildly / unexpected arch?
+└─ You may be on a remote context (`docker context ls`); switch to default local
+      </pre>
     </div>
 
     <div class="exit-ticket">
-      <h3>📝 Exit Ticket</h3>
-      <p><strong>Question:</strong> In your own words, what is the main advantage of using Docker containers instead of installing applications directly on your host OS?</p>
+      <h3>📝 Exit ticket</h3>
+      <p><strong>Question:</strong> Why can a Linux container not replace a Windows VM for a Windows-only app?</p>
       <textarea placeholder="Write your answer here..."></textarea>
     </div>
 
@@ -343,18 +152,5 @@ docker ps</code></pre>
       <p>&copy; 2026 Antonio G. Garcia (Otaconskeep) • MIT License</p>
     </footer>
   </div>
-
-  <script>
-    function showOS(osId) {
-      document.querySelectorAll('.os-content').forEach(content => {
-        content.classList.remove('active');
-      });
-      document.querySelectorAll('.os-tab').forEach(tab => {
-        tab.classList.remove('active');
-      });
-      document.getElementById(osId).classList.add('active');
-      event.target.classList.add('active');
-    }
-  </script>
 </body>
 </html>

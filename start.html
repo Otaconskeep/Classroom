@@ -22,91 +22,72 @@
     </nav>
 
     <div class="card">
-      <h2>🎯 What Are We Building?</h2>
-      <p>By the end of this course, you will have a complete homelab system running:</p>
-      <ul style="margin: 20px 0; padding-left: 40px; color: var(--text-secondary);">
-        <li><strong>Docker infrastructure</strong> — reproducible containerized services</li>
-        <li><strong>Media automation</strong> — Prowlarr, Sonarr, Radarr with TRaSH quality automation</li>
-        <li><strong>Media server</strong> — Plex or Jellyfin serving your library</li>
-        <li><strong>Home automation</strong> — Home Assistant controlling lights, sensors, devices</li>
-        <li><strong>Local voice assistant</strong> — Whisper + Piper running 100% offline</li>
-      </ul>
+      <h2>How learning works here</h2>
+      <p>Every lesson follows the same loop:</p>
 
       <div class="diagram">
-┌─────────────────────────────────────────────────────────────┐
-│                    YOUR HOMELAB NETWORK                     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  ┌──────────────┐      ┌──────────────┐                   │
-│  │   DOCKER     │      │     HOME     │                   │
-│  │   SERVER     │──────│  ASSISTANT   │                   │
-│  │              │      │              │                   │
-│  │ • ARR stack  │      │ • Devices    │                   │
-│  │ • Downloaders│      │ • Automations│                   │
-│  │ • Plex/JF    │      │ • Voice AI   │                   │
-│  └──────────────┘      └──────────────┘                   │
-│         │                      │                           │
-│         └──────────┬───────────┘                           │
-│                    │                                       │
-│              ┌─────┴──────┐                                │
-│              │   ROUTER   │                                │
-│              │  (LAN/WAN) │                                │
-│              └────────────┘                                │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
+  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
+  │  CONCEPT │ → │  PICTURE │ → │  ACTION  │ → │ VERIFY   │ → │ CONTINUE │
+  └──────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘
       </div>
+
+      <ol style="margin: 20px 0; padding-left: 40px; color: var(--text-secondary);">
+        <li><strong>One concept</strong> — if a page teaches two ideas, it failed.</li>
+        <li><strong>One picture</strong> — ASCII / SmartArt that stands alone.</li>
+        <li><strong>One action</strong> — you change the real system.</li>
+        <li><strong>Verify</strong> — evidence checkboxes (labs) before unlock.</li>
+        <li><strong>Then continue</strong> — no skipping gates.</li>
+      </ol>
     </div>
 
     <div class="card">
-      <h2>📋 Hardware Checklist</h2>
-      <p>You will need:</p>
-      
-      <h3>Minimum Requirements:</h3>
-      <ul style="margin: 15px 0; padding-left: 40px; color: var(--text-secondary);">
-        <li><strong>Computer:</strong> Any x86-64 PC, laptop, or mini-PC with 8GB+ RAM</li>
-        <li><strong>Operating System:</strong> Windows 10/11 with WSL2, OR Ubuntu/Debian Linux</li>
-        <li><strong>Storage:</strong> 100GB+ free disk space (500GB+ recommended for media)</li>
-        <li><strong>Network:</strong> Wired ethernet connection recommended</li>
-      </ul>
-
-      <h3>Optional (for later units):</h3>
-      <ul style="margin: 15px 0; padding-left: 40px; color: var(--text-secondary);">
-        <li><strong>NAS:</strong> Synology, QNAP, or TrueNAS for centralized storage</li>
-        <li><strong>Proxmox server:</strong> Dedicated hardware for VM/container management</li>
-        <li><strong>Smart devices:</strong> Zigbee/Z-Wave hubs, smart lights, sensors for HA</li>
-        <li><strong>Microphone/Speaker:</strong> USB mic or Raspberry Pi for voice assistant</li>
-      </ul>
-
-      <div class="alert alert-info">
-        <strong>💡 Starting simple?</strong> You can complete Units 1–2 (Docker + ARR) on a single Windows laptop with WSL2. Home Assistant and voice come later.
-      </div>
+      <h2>Difficulty badges</h2>
+      <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+        <tr style="background: var(--bg-card); border-bottom: 2px solid var(--accent-teal);">
+          <th style="padding: 10px; text-align: left;">Badge</th>
+          <th style="padding: 10px; text-align: left;">You should feel…</th>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--border-color);">
+          <td style="padding: 10px;"><span class="difficulty-badge difficulty-baby">BABY</span></td>
+          <td style="padding: 10px;">Guided; copy-paste OK</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--border-color);">
+          <td style="padding: 10px;"><span class="difficulty-badge difficulty-intermediate">INTERMEDIATE</span></td>
+          <td style="padding: 10px;">You can recover with the decision tree</td>
+        </tr>
+        <tr>
+          <td style="padding: 10px;"><span class="difficulty-badge difficulty-advanced">ADVANCED</span></td>
+          <td style="padding: 10px;">Backups required; production-adjacent</td>
+        </tr>
+      </table>
     </div>
 
     <div class="card">
-      <h2>🗺️ Course Navigation</h2>
-      
-      <h3>The Learning Path:</h3>
-      <div style="margin: 20px 0; padding-left: 20px; color: var(--text-secondary);">
-        <p><strong>1. Choose Your Path</strong> → <a href="path.html">Windows (WSL2) or Linux?</a></p>
-        <p style="margin: 10px 0 20px 40px; font-size: 0.9rem;">
-          Windows and Linux paths share ~80% of content. You'll see OS-specific tabs only where install steps or file paths differ.
-        </p>
+      <h2>OS fork (do this next)</h2>
+      <p>Homelabs start on different desks. We <strong>fork early</strong>, then <strong>merge</strong>:</p>
+      <ul style="margin: 15px 0; padding-left: 40px; color: var(--text-secondary);">
+        <li><strong>Windows path:</strong> WSL2 + Docker</li>
+        <li><strong>Linux path:</strong> Ubuntu + Docker</li>
+      </ul>
+      <p>Open <a href="path.html">Choose Your Path</a> and complete its checkpoint before Class 01.</p>
+    </div>
 
-        <p><strong>2. Work Through Units 1→4 in Order</strong></p>
-        <p style="margin: 10px 0 20px 40px; font-size: 0.9rem;">
-          Each lesson builds on the previous. Do not skip ahead unless you already have those prerequisites running.
-        </p>
+    <div class="card">
+      <h2>Evidence culture</h2>
+      <ul style="margin: 15px 0; padding-left: 40px; color: var(--text-secondary);">
+        <li>Checkboxes are <strong>claims</strong>. Only tick what you actually saw.</li>
+        <li>Final Exam will ask for artifacts from Units 1–4.</li>
+        <li>Screenshots live in your notes vault (Obsidian/Notion/folder) — not required in git.</li>
+      </ul>
+    </div>
 
-        <p><strong>3. Use the Glossary Constantly</strong></p>
-        <p style="margin: 10px 0 20px 40px; font-size: 0.9rem;">
-          Every technical term is defined in the <a href="glossary.html">glossary</a>. When you see a highlighted word, look it up.
-        </p>
-
-        <p><strong>4. Complete the Final Exam</strong></p>
-        <p style="margin: 10px 0 20px 40px; font-size: 0.9rem;">
-          The <a href="final-exam.html">final exam</a> is a verification matrix: request a movie → watch it on Plex → control your lights → ask your voice assistant.
-        </p>
-      </div>
+    <div class="card">
+      <h2>Videos = lectures only</h2>
+      <p>NetworkChuck, IBRACORP, Smart Home Junkie, Everything Smart Home, Dad-the-Engineer style videos are <strong>concept lectures</strong>. Buttons move. Prefer:</p>
+      <ul style="margin: 15px 0; padding-left: 40px; color: var(--text-secondary);">
+        <li>Current official docs</li>
+        <li>This academy's labs</li>
+      </ul>
     </div>
 
     <div class="card">
