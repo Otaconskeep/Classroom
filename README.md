@@ -22,7 +22,7 @@ Older NetworkChuck / IBRACORP material is treated as concept lectures. Always pr
 ## Units
 
 1. Infrastructure & Docker (Classes 1–4)  
-2. ARR Media Automation (Classes 5–7)  
+2. ARR Media Automation (Classes 5–7 + stack lessons: map, hardlinks, core, Seerr, companions, research shelf)  
 3. Home Assistant (Classes 8–10)  
 4. Local Voice (Classes 11–13)  
 5. Final exam verification matrix  
