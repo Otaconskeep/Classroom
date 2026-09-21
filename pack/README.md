@@ -1,7 +1,3 @@
-# Otaconskeep Classroom — Homelab Academy
-
-**Site:** https://otaconskeep.github.io/classroom/
-
 # Homelab Academy: ARR + Home Assistant + Local Voice
 
 This is a complete, build-first course package built around the 13-video path discussed in the companion conversation. It is not a transcript collection. Each class converts the useful ideas into original instruction, adds current operational guidance, and connects the lesson to one final working homelab.
@@ -47,8 +43,3 @@ The course progression is:
 - A test media library and a test Home Assistant entity.
 - Optional microphone and speaker for Classes 11–13.
 
-
-
-## License
-
-MIT — Antonio G. Garcia (Otaconskeep)
